@@ -1,0 +1,37 @@
+---
+ - hosts: webserver
+   become: yes
+   tasks:
+
+                - name: Install Python
+                  apt:
+                         name: python3
+                         state: present
+                - debug:
+                        msg: "PYTHON INSTALLATION COMPLETE"
+                   
+                - name: Install Java
+                  apt:
+                        name: openjdk-17-jdk
+                        state: present
+
+                - debug:
+                        msg: "JAVA INSTALLATION COMPLETE"
+
+                - name: ensure the jenkins apt repository key is installed
+                  apt_key: url=https://pkg.jenkins.io/debian/jenkins.io-2023.key state=present
+                  become: yes
+
+                - name: ensure the repository is configured
+                  apt_repository: repo='deb https://pkg.jenkins.io/debian-stable binary/' state=present
+                  become: yes
+
+                - name: ensure jenkins is installed
+                  apt: name=jenkins update_cache=yes
+                  become: yes
+
+                - name: ensure jenkins is running
+                  service: name=jenkins state=started
+
+                - debug:
+                        msg: "JENKINS INSTALLATION COMPLETE"
