@@ -12,7 +12,7 @@
                    
                 - name: Install Java
                   apt:
-                        name: openjdk-17-jdk
+                        name: openjdk-17-jre-headless
                         state: present
 
                 - debug:
